@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: directory-app
+  namespace: argocd
+spec:
+  destination:
+    namespace: directory-app
+    server: "https://kubernetes.default.svc"
+  project: default
+  source:
+    directory: # here the directory recurse attribute is added so that it can find files recursively 
+      recurse: true
+    path: guestbook-with-sub-directories
+    repoURL: "https://github.com/mabusaa/argocd-example-apps.git"
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
