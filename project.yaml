@@ -1,0 +1,27 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata: 
+    name: dev-project
+    namespace: argocd # this is basically kind of argo related resource so the name space here will always be arocd 
+spec:
+    description: Dev Project 
+
+# repositories where the application manifests are permitted to be retrieved from 
+    sourceRepos:
+        - '*' # everything is allowed 
+
+# cluster and namespaces where applications are permitted to be deployed to         
+    destinations:
+        - namespace: ns-1
+          server: https://kubernetes.default.svc
+
+# Cluster-scoped k8s api groups and kinds which are permitted to be deployed in this project
+    clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'
+          
+# namespace-scoped k8s api groups and kinds which are permitted to be deployed in this project
+    namespaceResourceWhitelist:
+        - group: '*'
+          kind: '*'
