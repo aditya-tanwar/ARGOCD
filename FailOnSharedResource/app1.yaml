@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: app1
+  namespace: argocd
+spec: 
+  destination: 
+    namespace: test-ns-1
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    path: guestbook
+    repoURL: "https://github.com/aditya-tanwar/private-argo.git"
+    targetRevision: master # branch  
+  syncPolicy:
+    automated:
+      selfHeal: true 
+      prune: true 
+    syncOptions:
+      - CreateNamespace=true
