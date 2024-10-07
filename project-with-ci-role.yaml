@@ -1,0 +1,35 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+    name: project-with-role
+    namespace: argocd
+spec:   
+    description: project with ci-role 
+    sourceRepos:
+    - '*'
+
+    destinations:
+    - namespace: '*'
+      server: '*'
+
+
+    clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+    namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+# here the roles are getting created on the project level 
+
+    roles: 
+    - name: ci-role
+      description: sync privileges for the project with role 
+      policies:
+      - p, proj:project-with-role:ci-role, applications, sync, project-with-role/*, allow
+      - p, proj:project-with-role:ci-role, applications, get, project-with-role/*, allow
+
+
+# NOTE : rbac-cm takes the priority over the project roles 
